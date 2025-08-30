@@ -2,7 +2,7 @@
 'use client'
 import { useMemo, useEffect, useState, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { getFirestore, collection, doc, getDoc, setDoc, updateDoc, query, where, getDocs } from 'firebase/firestore'
+import { getFirestore, collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import app from '@/lib/firebase'
 
 export const runtime = 'edge'

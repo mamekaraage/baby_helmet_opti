@@ -21,7 +21,7 @@ export default function CustomerTopPage() {
     }
   }, [router]);
 
-  const currentUser = requireAuth();
+  // const currentUser = requireAuth();
   // if (currentUser) {
   //   alert(`user情報: ${currentUser.userId}`);
   // }
@@ -38,11 +38,6 @@ export default function CustomerTopPage() {
       </div>
     );
   }
-
-  const handleHistory = (userId: string) => {
-    router.push(`/medical_history_hospital/${userId}`);
-    // router.push(`/history_hospital?userId=${userId}`);
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-100">

@@ -1,6 +1,6 @@
 // src/lib/auth.ts
 import { collection, query, where, getDocs } from 'firebase/firestore';
-import bcrypt from 'bcryptjs';
+// import bcrypt from 'bcryptjs';
 import Cookies from 'js-cookie';
 import { db } from './firebase';
 
