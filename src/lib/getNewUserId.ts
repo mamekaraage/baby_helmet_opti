@@ -1,6 +1,6 @@
 // src/app/lib/getNewUserId.ts
 import { db } from "@/lib/firebase";
-import { doc, runTransaction, setDoc } from "firebase/firestore";
+import { doc, runTransaction } from "firebase/firestore";
 
 /**
  * 新しいユーザーIDを発行する関数

@@ -88,7 +88,8 @@ export default function UserUpdatePage() {
         } else {
           setError('ユーザーが見つかりません');
         }
-      } catch (err) {
+      } catch (fetchError) {
+        console.error('Error fetching user:', fetchError);
         setError('ユーザー情報の取得に失敗しました');
       } finally {
         setLoading(false);
@@ -182,8 +183,8 @@ export default function UserUpdatePage() {
     setError('');
 
     // 変更チェック（パスワード空欄時は比較から除外）
-    const { password, ...restForm } = formData;
-    const { password: _, ...restUser } = user || {};
+    const { password: formPassword, ...restForm } = formData;
+    const { password: userPassword, ...restUser } = user || {};
 
     if (
       user &&
@@ -207,7 +208,7 @@ export default function UserUpdatePage() {
     }
 
     try {
-      let updateData: Partial<User> = { ...formData };
+      const updateData: Partial<User> = { ...formData };
 
       // パスワードが入力されている場合のみハッシュ化して更新
       if (formData.password) {
@@ -232,7 +233,8 @@ export default function UserUpdatePage() {
     //   await setDoc(doc(db, 'users', userId), formData, { merge: true });
 
       router.push('/top_hospital');
-    } catch (err) {
+    } catch (updateError) {
+      console.error('Error updating user:', updateError);
       setError('ユーザー情報の更新に失敗しました');
     }
   };
