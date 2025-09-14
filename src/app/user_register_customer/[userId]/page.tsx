@@ -187,8 +187,8 @@ export default function UserUpdatePage() {
     const { password: userPass, ...restUser } = user || {};
 
     // // 未使用変数エラーを回避するためコメントで使用を示す
-    // void formPass; // パスワードは比較対象外
-    // void userPass; // パスワードは比較対象外
+    void formPass; // パスワードは比較対象外
+    void userPass; // パスワードは比較対象外
 
     if (
       user &&
