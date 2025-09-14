@@ -10,6 +10,8 @@ import { db } from '@/lib/firebase';
 import { Icon } from "@/lib/icon";
 import Link from "next/link";
 
+export const runtime = 'edge';
+
 interface CustomerUser {
   userId: string;
   baby_family_name: string;

@@ -7,6 +7,8 @@ import { requireAuth, User } from '@/lib/auth';
 import { db } from '@/lib/firebase';
 import { parseCompactDate, buildCompactDate, isValidDateParts } from '@/lib/dateUtils';
 
+export const runtime = 'edge';
+
 interface MedicalHistoryData {
   userId: string;
   history01?: string;

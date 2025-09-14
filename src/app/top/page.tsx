@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { requireAuth, logout, User } from '@/lib/auth';
 
+export const runtime = 'edge';
+
 export default function CustomerTopPage() {
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
