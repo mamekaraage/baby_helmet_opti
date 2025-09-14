@@ -183,8 +183,8 @@ export default function UserUpdatePage() {
     setError('');
 
     // 変更チェック（パスワード空欄時は比較から除外）
-    const { password: formPassword, ...restForm } = formData;
-    const { password: userPassword, ...restUser } = user || {};
+    const { password: _, ...restForm } = formData;
+    const { password: __, ...restUser } = user || {};
 
     if (
       user &&
