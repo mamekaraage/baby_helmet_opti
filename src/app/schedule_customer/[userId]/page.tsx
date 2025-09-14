@@ -206,7 +206,10 @@ export default function SchedulePage() {
           >
             ← 戻る
           </button>
-          <h1 className="text-xl md:text-2xl font-semibold">カレンダー（ヘルメット利用時間記録）</h1>
+          {/* <h1 className="text-xl md:text-2xl font-semibold">カレンダー（ヘルメット利用時間記録）</h1> */}
+          <h1 className="text-lg md:text-xl lg:text-2xl font-semibold leading-tight break-words">
+                カレンダー（ヘルメット利用時間記録）
+              </h1>          
           <div className="text-sm md:text-base text-gray-600 mt-1">
             <span className="mr-4">患者名：{user ? `${user.baby_family_name ?? ''} ${user.baby_first_name ?? ''}`.trim() || '-' : '-'}</span>
             <span>診察番号：{user?.consultation_id ?? '-'}</span>
@@ -234,9 +237,9 @@ export default function SchedulePage() {
           {/* 空のセル*/}
           <div className="bg-gray-50 py-3 px-2 text-xs text-gray-500"></div>
           {days.map((d, idx) => (
-            <div key={idx} className="bg-gray-50 py-2 px-2 text-center">
-              <div className="text-[10px] md:text-xs text-gray-500">{weekdayJa(d)}</div>
-              <div className={`text-sm md:text-base font-medium ${isToday(d) ? 'text-blue-700' : ''}`}>
+            <div key={idx} className="bg-gray-50 py-1 px-1 text-center">
+              <div className="text-[7px] sm:text-[10px] md:text-[16px] text-gray-500">{weekdayJa(d)}</div>
+              <div className={`text-[7px] sm:text-[10px] md:text-[16px] font-medium ${isToday(d) ? 'text-blue-700' : ''}`}>
                 {/* 当日は数字を強調 */}
                 <span className={`${isToday(d) ? 'px-2 py-0.5 rounded-full bg-blue-100' : ''}`}>{formatLabel(d)}</span>
               </div>
@@ -277,9 +280,9 @@ export default function SchedulePage() {
 
       {/* 凡例 */}
       <div className="flex items-center gap-4 text-xs text-gray-600 mt-3">
-        <div className="flex items-center gap-2"><span className="w-4 h-4 inline-block bg-white border"/>未選択（0）</div>
+        {/* <div className="flex items-center gap-2"><span className="w-4 h-4 inline-block bg-white border"/>未選択（0）</div> */}
         <div className="flex items-center gap-2"><span className="w-4 h-4 inline-block bg-blue-300 border"/>未保存の選択</div>
-        <div className="flex items-center gap-2"><span className="w-4 h-4 inline-block bg-blue-500 border"/>保存済み（1）</div>
+        <div className="flex items-center gap-2"><span className="w-4 h-4 inline-block bg-blue-500 border"/>保存済</div>
       </div>
     </main>
   )
