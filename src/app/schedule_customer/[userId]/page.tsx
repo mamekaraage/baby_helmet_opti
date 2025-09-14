@@ -1,8 +1,7 @@
-
 'use client'
 import { useMemo, useEffect, useState, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { getFirestore, collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
+import { getFirestore, collection, doc, getDoc, setDoc, updateDoc, UpdateData } from 'firebase/firestore'
 import app from '@/lib/firebase'
 
 export const runtime = 'edge'
@@ -176,7 +175,7 @@ export default function SchedulePage() {
 
     const payload: ScheduleDoc = { statusMap: next }
     if (!snap.exists()) await setDoc(schedRef, payload)
-    else await updateDoc(schedRef, payload as any)
+    else await updateDoc(schedRef, payload as UpdateData<ScheduleDoc>)
 
     // 画面状態更新：pending -> persisted（青300 -> 青500 / 白へ）
     const newPersisted: Record<string, 0 | 1> = { ...persistedMap }

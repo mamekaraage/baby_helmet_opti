@@ -1,7 +1,6 @@
-   // src/app/medical_history_hospital/[userId]/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { requireAuth, User } from '@/lib/auth';
@@ -80,19 +79,8 @@ export default function MedicalHistoryPage() {
     i.toString().padStart(2, '0')
   );
 
-  useEffect(() => {
-    const currentUser = requireAuth();
-    if (currentUser) {
-      // if (currentUser.user_type !== 'hospital') {
-      //   router.push('/top');
-      //   return;
-      // }
-      setUser(currentUser);
-      loadData();
-    }
-  }, [router, userId]);
-
-  const loadData = async () => {
+  // loadData関数をuseCallbackでメモ化
+  const loadData = useCallback(async () => {
     try {
       setIsLoading(true);
 
@@ -137,12 +125,24 @@ export default function MedicalHistoryPage() {
         }
         setFormData(initialFormData);
       }
-    } catch (error) {
-      console.error('Error loading data:', error);
+    } catch (loadError) {
+      console.error('Error loading data:', loadError);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [userId]); // userIdが変更された時のみ再生成
+
+  useEffect(() => {
+    const currentUser = requireAuth();
+    if (currentUser) {
+      // if (currentUser.user_type !== 'hospital') {
+      //   router.push('/top');
+      //   return;
+      // }
+      setUser(currentUser);
+      loadData();
+    }
+  }, [router, userId, loadData]); // loadDataを依存配列に追加
 
   const handleDatePartChange = (field: string, part: keyof DateParts, value: string) => {
     setFormData(prev => ({
@@ -191,8 +191,9 @@ export default function MedicalHistoryPage() {
 
       try {
         await updateDoc(docRef, updateData);
-      } catch (error) {
+      } catch (updateError) {
         // ドキュメントが存在しない場合は新規作成
+        console.log('Document not found, creating new one:', updateError);
         await setDoc(docRef, { ...medicalHistory, ...updateData });
       }
 
@@ -209,8 +210,8 @@ export default function MedicalHistoryPage() {
         setSuccess(prev => ({ ...prev, [field]: false }));
       }, 3000);
 
-    } catch (error) {
-      console.error('Error saving:', error);
+    } catch (saveError) {
+      console.error('Error saving:', saveError);
       setErrors(prev => ({ ...prev, [field]: '保存中にエラーが発生しました' }));
     } finally {
       setIsSaving(prev => ({ ...prev, [field]: false }));

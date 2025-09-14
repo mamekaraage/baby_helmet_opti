@@ -2,7 +2,7 @@
 'use client';
 
 import { getNewUserId } from '@/lib/getNewUserId';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   collection,
@@ -164,7 +164,8 @@ export default function UserEntryCustomerPage() {
 
       alert('ユーザー登録が完了しました');
       router.push('/top_hospital');
-    } catch (err) {
+    } catch (registrationError) {
+      console.error('Registration error:', registrationError);
       setError('登録に失敗しました');
     }
   };
