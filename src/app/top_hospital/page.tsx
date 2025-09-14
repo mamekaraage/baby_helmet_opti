@@ -188,7 +188,7 @@ export default function HospitalTopPage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value.slice(0, 32))}
-                placeholder="患者名で検索..."
+                placeholder="患者様情報で検索..."
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 maxLength={32}
               />
@@ -254,19 +254,19 @@ export default function HospitalTopPage() {
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                           <button
                             onClick={() => handleUserUpdate(customer.userId)}
-                            className="inline-flex items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                            className="inline-flex items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors transform hover:scale-105 "
                           >
                             ユーザー更新
                           </button>
                           <button
                             onClick={() => handleSchedule(customer.userId)}
-                            className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                            className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors transform hover:scale-105"
                           >
                             利用スケジュール
                           </button>
                           <button
                             onClick={() => handleHistory(customer.userId)}
-                            className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
+                            className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors transform hover:scale-105"
                           >
                             診察履歴
                           </button>
@@ -316,7 +316,7 @@ export default function HospitalTopPage() {
         {/* 統計情報 */}
         {!isLoading && (
           <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white rounded-lg shadow p-6">
+            {/* <div className="bg-white rounded-lg shadow p-6">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -330,9 +330,9 @@ export default function HospitalTopPage() {
                   <p className="text-2xl font-semibold text-gray-900">{customers.length}</p>
                 </div>
               </div>
-            </div>
+            </div> */}
 
-            <div className="bg-white rounded-lg shadow p-6">
+            {/* <div className="bg-white rounded-lg shadow p-6">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
@@ -346,7 +346,7 @@ export default function HospitalTopPage() {
                   <p className="text-2xl font-semibold text-gray-900">{filteredCustomers.length}</p>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <div className="bg-white rounded-lg shadow p-6">
               <div className="flex items-center">
@@ -369,7 +369,7 @@ export default function HospitalTopPage() {
             {/* ユーザー登録*/}
 
             <button
-              onClick={() => router.push('/history')}
+              onClick={() => router.push('/user_entry_customer')}
               className="bg-white rounded-lg shadow p-6 flex-shrink-0"
               // className="w-full bg-gradient-to-r from-blue-400 to-indigo-500 hover:from-blue-500 hover:to-indigo-600 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105"
             >

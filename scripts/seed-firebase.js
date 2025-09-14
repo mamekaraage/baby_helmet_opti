@@ -55,7 +55,7 @@ async function createTestUsers() {
       family_name: "山田",
       first_name: "太郎",
       password: hospitalPassword,
-      userId: "hospital_user_001",
+      userId: "hospital_user_0001",
       user_type: "hospital"
     };
 
@@ -71,7 +71,7 @@ async function createTestUsers() {
       parent_family_name: "田中",
       parent_first_name: "一郎",
       password: customer1Password,
-      userId: "customer_user_001",
+      userId: "customer_user_0001",
       user_type: "customer"
     };
 
@@ -88,7 +88,7 @@ async function createTestUsers() {
       parent_first_name: "美香",
       password: customer2Password, // ハッシュ化されたパスワード
       // password:"pass",
-      userId: "customer_user_002",
+      userId: "customer_user_0002",
       user_type: "customer"
     };
 
@@ -105,7 +105,7 @@ async function createTestUsers() {
         parent_first_name: "京子",
         password: customer3Password, // ハッシュ化されたパスワード
         // password:"pass",
-        userId: "customer_user_003",
+        userId: "customer_user_0003",
         user_type: "customer"
       };
   
@@ -122,7 +122,7 @@ async function createTestUsers() {
         parent_first_name: "恵子",
         password: customer4Password, // ハッシュ化されたパスワード
         // password:"pass",
-        userId: "customer_user_004",
+        userId: "customer_user_0004",
         user_type: "customer"
       };
   
@@ -139,7 +139,7 @@ async function createTestUsers() {
         parent_first_name: "政治",
         password: customer5Password, // ハッシュ化されたパスワード
         // password:"pass",
-        userId: "customer_user_005",
+        userId: "customer_user_0005",
         user_type: "customer"
       };
   
@@ -156,7 +156,7 @@ async function createTestUsers() {
         parent_first_name: "雄太",
         password: customer6Password, // ハッシュ化されたパスワード
         // password:"pass",
-        userId: "customer_user_006",
+        userId: "customer_user_0006",
         user_type: "customer"
       };
   
@@ -173,7 +173,7 @@ async function createTestUsers() {
         parent_first_name: "洋子",
         password: customer7Password, // ハッシュ化されたパスワード
         // password:"pass",
-        userId: "customer_user_007",
+        userId: "customer_user_0007",
         user_type: "customer"
       };
 
@@ -190,7 +190,7 @@ async function createTestUsers() {
         parent_first_name: "ケイコ",
         password: customer8Password, // ハッシュ化されたパスワード
         // password:"pass",
-        userId: "customer_user_008",
+        userId: "customer_user_0008",
         user_type: "customer"
       };
 
@@ -207,7 +207,7 @@ async function createTestUsers() {
         parent_first_name: "道子",
         password: customer9Password, // ハッシュ化されたパスワード
         // password:"pass",
-        userId: "customer_user_009",
+        userId: "customer_user_0009",
         user_type: "customer"
       };
 
@@ -224,7 +224,7 @@ async function createTestUsers() {
         parent_first_name: "狭し",
         password: customer10Password, // ハッシュ化されたパスワード
         // password:"pass",
-        userId: "customer_user_010",
+        userId: "customer_user_0010",
         user_type: "customer"
       };
 
@@ -241,7 +241,7 @@ async function createTestUsers() {
         parent_first_name: "翔太",
         password: customer11Password, // ハッシュ化されたパスワード
         // password:"pass",
-        userId: "customer_user_011",
+        userId: "customer_user_0011",
         user_type: "customer"
       };
 
@@ -258,7 +258,7 @@ async function createTestUsers() {
         parent_first_name: "陽子",
         password: customer12Password, // ハッシュ化されたパスワード
         // password:"pass",
-        userId: "customer_user_012",
+        userId: "customer_user_0012",
         user_type: "customer"
       };
 
@@ -275,7 +275,7 @@ async function createTestUsers() {
         parent_first_name: "洋子",
         password: customer13Password, // ハッシュ化されたパスワード
         // password:"pass",
-        userId: "customer_user_013",
+        userId: "customer_user_0013",
         user_type: "customer"
       };
 
@@ -292,7 +292,7 @@ async function createTestUsers() {
         parent_first_name: "洋子",
         password: customer14Password, // ハッシュ化されたパスワード
         // password:"pass",
-        userId: "customer_user_014",
+        userId: "customer_user_0014",
         user_type: "customer"
       };
 
@@ -309,20 +309,9 @@ async function createTestUsers() {
         parent_first_name: "洋子",
         password: customer15Password, // ハッシュ化されたパスワード
         // password:"pass",
-        userId: "customer_user_015",
+        userId: "customer_user_0015",
         user_type: "customer"
       };
-
-
-
-
-
-
-
-
-
-
-
 
 
       await setDoc(doc(db, 'users', hospitalUser.userId), hospitalUser);
@@ -335,12 +324,12 @@ async function createTestUsers() {
       await setDoc(doc(db, 'users', customer7.userId), customer7);
       await setDoc(doc(db, 'users', customer8.userId), customer8);
       await setDoc(doc(db, 'users', customer9.userId), customer9);
-      // await setDoc(doc(db, 'users', customer10.uerId), customer10);
-      // await setDoc(doc(db, 'users', customer11.userId), customer11);
-      // await setDoc(doc(db, 'users', customer12.userId), customer12);
-      // await setDoc(doc(db, 'users', customer13.userId), customer13);
-      // await setDoc(doc(db, 'users', customer14.userId), customer14);
-      // await setDoc(doc(db, 'users', customer15.userId), customer15);
+      await setDoc(doc(db, 'users', customer10.userId), customer10);
+      await setDoc(doc(db, 'users', customer11.userId), customer11);
+      await setDoc(doc(db, 'users', customer12.userId), customer12);
+      await setDoc(doc(db, 'users', customer13.userId), customer13);
+      await setDoc(doc(db, 'users', customer14.userId), customer14);
+      await setDoc(doc(db, 'users', customer15.userId), customer15);
 
     // Firestoreに登録
     // const usersCollection = collection(db, 'users');

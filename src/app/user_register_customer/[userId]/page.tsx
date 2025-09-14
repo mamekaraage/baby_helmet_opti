@@ -130,20 +130,38 @@ export default function UserUpdatePage() {
       errors.push('メールアドレスは128文字以内で入力してください');
     }
 
-    // パスワードバリデーション
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{10,32}$/;
+  // パスワードが入力されている場合のみバリデーション
+  if (formData.password || confirmPassword) {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{10,32}$/;
     if (!passwordRegex.test(formData.password)) {
-      errors.push('パスワードは10文字以上-32文字以内で、大文字・小文字・数字・記号をすべて含む必要があります');
+      errors.push(
+        'パスワードは10文字以上-32文字以内で、大文字・小文字・数字・記号をすべて含む必要があります'
+      );
     }
 
-    // パスワード確認
     if (formData.password !== confirmPassword) {
       errors.push('パスワードと確認用パスワードが一致しません');
     }
+  }
+    // パスワードバリデーション
+    // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{10,32}$/;
+    // if (!passwordRegex.test(formData.password)) {
+    //   errors.push('パスワードは10文字以上-32文字以内で、大文字・小文字・数字・記号をすべて含む必要があります');
+    // }
+
+    // // パスワード確認
+    // if (formData.password !== confirmPassword) {
+    //   errors.push('パスワードと確認用パスワードが一致しません');
+    // }
+
+    // alert(formData.user_memo.length)
 
     // メモバリデーション
-    if (!(formData.user_memo.length >= 0 && formData.user_memo.length <= 700)) {
-      errors.push('メモは700文字以内で入力してください');
+    if ((formData.user_memo ?? '').length > 700) {
+    // if (formData.user_memo.length > 700) {
+        // if (!(formData.user_memo.length >= 0 && formData.user_memo.length <= 700)) {
+        errors.push('メモは700文字以内で入力してください');
     }
 
     return errors;
@@ -163,11 +181,23 @@ export default function UserUpdatePage() {
   const handleUpdate = async () => {
     setError('');
 
-    // データが変更されているかチェック
-    if (user && JSON.stringify(formData) === JSON.stringify(user) && confirmPassword === user.password) {
+    // 変更チェック（パスワード空欄時は比較から除外）
+    const { password, ...restForm } = formData;
+    const { password: _, ...restUser } = user || {};
+
+    if (
+      user &&
+      JSON.stringify(restForm) === JSON.stringify(restUser) &&
+      (!formData.password || confirmPassword === user.password)
+    ) {
       setError('更新する項目がありません');
       return;
     }
+    // データが変更されているかチェック
+    // if (user && JSON.stringify(formData) === JSON.stringify(user) && confirmPassword === user.password) {
+    //   setError('更新する項目がありません');
+    //   return;
+    // }
 
     // バリデーション
     const validationErrors = validateForm();
@@ -177,16 +207,28 @@ export default function UserUpdatePage() {
     }
 
     try {
+      let updateData: Partial<User> = { ...formData };
+
+      // パスワードが入力されている場合のみハッシュ化して更新
+      if (formData.password) {
+        const hashedPassword = await hashPassword(formData.password);
+        updateData.password = hashedPassword;
+      } else {
+        // 空欄ならパスワードは更新しない
+        delete updateData.password;
+      }
+  
+      await setDoc(doc(db, 'users', userId), updateData, { merge: true });
       //パスワードをハッシュ化
-      const hashedPassword = await hashPassword(formData.password)
+      // const hashedPassword = await hashPassword(formData.password)
 
 
     //保存時はハッシュ済みの値に置き換える
-    await setDoc(
-        doc(db, 'users', userId),
-        { ...formData, password: hashedPassword },
-        { merge: true }
-      )
+    // await setDoc(
+    //     doc(db, 'users', userId),
+    //     { ...formData, password: hashedPassword },
+    //     { merge: true }
+    //   )
     //   await setDoc(doc(db, 'users', userId), formData, { merge: true });
 
       router.push('/top_hospital');

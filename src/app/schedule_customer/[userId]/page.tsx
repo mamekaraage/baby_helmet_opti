@@ -232,7 +232,8 @@ export default function SchedulePage() {
       <div className="mt-4 rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
         {/* 週ヘッダ（日付 + 曜日） */}
         <div className="grid" style={{ gridTemplateColumns: '80px repeat(7, 1fr)' }}>
-          <div className="bg-gray-50 py-3 px-2 text-xs text-gray-500">時間</div>
+          {/* 空のセル*/}
+          <div className="bg-gray-50 py-3 px-2 text-xs text-gray-500"></div>
           {days.map((d, idx) => (
             <div key={idx} className="bg-gray-50 py-2 px-2 text-center">
               <div className="text-[10px] md:text-xs text-gray-500">{weekdayJa(d)}</div>
