@@ -183,8 +183,12 @@ export default function UserUpdatePage() {
     setError('');
 
     // 変更チェック（パスワード空欄時は比較から除外）
-    const { password: _, ...restForm } = formData;
-    const { password: __, ...restUser } = user || {};
+    const { password: formPass, ...restForm } = formData;
+    const { password: userPass, ...restUser } = user || {};
+
+    // 未使用変数エラーを回避するためコメントで使用を示す
+    void formPass; // パスワードは比較対象外
+    void userPass; // パスワードは比較対象外
 
     if (
       user &&
@@ -194,11 +198,6 @@ export default function UserUpdatePage() {
       setError('更新する項目がありません');
       return;
     }
-    // データが変更されているかチェック
-    // if (user && JSON.stringify(formData) === JSON.stringify(user) && confirmPassword === user.password) {
-    //   setError('更新する項目がありません');
-    //   return;
-    // }
 
     // バリデーション
     const validationErrors = validateForm();
@@ -220,17 +219,6 @@ export default function UserUpdatePage() {
       }
   
       await setDoc(doc(db, 'users', userId), updateData, { merge: true });
-      //パスワードをハッシュ化
-      // const hashedPassword = await hashPassword(formData.password)
-
-
-    //保存時はハッシュ済みの値に置き換える
-    // await setDoc(
-    //     doc(db, 'users', userId),
-    //     { ...formData, password: hashedPassword },
-    //     { merge: true }
-    //   )
-    //   await setDoc(doc(db, 'users', userId), formData, { merge: true });
 
       router.push('/top_hospital');
     } catch (updateError) {
