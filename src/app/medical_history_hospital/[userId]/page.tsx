@@ -473,7 +473,7 @@ export default function MedicalHistoryPage() {
         )}
 
         {/* 診察履歴カード */}
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {/* 左列: 通常診療 */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-blue-900 text-center bg-blue-100 py-2 rounded-lg">

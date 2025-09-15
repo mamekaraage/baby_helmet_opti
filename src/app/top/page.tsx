@@ -48,17 +48,17 @@ export default function CustomerTopPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className="text-xl font-semibold text-gray-900">
+              <h1 className="text-[12px] sm:text-[18px] md:text-[24px] font-semibold text-gray-900">
                 お客様ダッシュボード
               </h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">
+              <span className="text-[12px] sm:text-[18px] md:text-[24px] text-gray-600">
                 {user.baby_family_name} {user.baby_first_name}様
               </span>
               <button
                 onClick={handleLogout}
-                className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+                className="text-[12px] sm:text-[18px] md:text-[24px] text-gray-500 hover:text-gray-700 transition-colors"
               >
                 ログアウト
               </button>
@@ -70,10 +70,10 @@ export default function CustomerTopPage() {
       {/* メインコンテンツ */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            こんにちは、{user.baby_family_name} {user.baby_first_name}様
+          <h2 className="text-[20px] sm:text-[26px] md:text-[32px] font-bold text-gray-900 mb-4">
+            {user.baby_family_name} {user.baby_first_name}様
           </h2>
-          <p className="text-lg text-gray-600">
+          <p className="text-[14px] sm:text-[20px] md:text-[26px] text-gray-600">
             ご利用いただきありがとうございます
           </p>
         </div>
