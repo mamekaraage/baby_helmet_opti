@@ -431,14 +431,14 @@ export default function MedicalHistoryPage() {
                 戻る
               </button>
               <h1 className="text-xl font-semibold text-gray-900">
-                診察履歴管理
+                診察履歴
               </h1>
             </div>
-            <div className="flex items-center space-x-4">
+            {/* <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-600">
                 {user.family_name} {user.first_name}様
               </span>
-            </div>
+            </div> */}
           </div>
         </div>
       </header>

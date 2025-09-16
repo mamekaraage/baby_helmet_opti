@@ -190,7 +190,7 @@ export default function HospitalTopPage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value.slice(0, 32))}
-                placeholder="患者様情報で検索..."
+                placeholder="名前、診察番号で検索..."
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 maxLength={32}
               />

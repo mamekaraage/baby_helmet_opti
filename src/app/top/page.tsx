@@ -92,7 +92,7 @@ export default function CustomerTopPage() {
                 スケジュール
               </h3>
               <p className="text-gray-600 mb-6">
-                診察予約の管理
+                ヘルメット装着スケジュールの管理
               </p>
               {/* <button
                 onClick={() => router.push('/schedule')}

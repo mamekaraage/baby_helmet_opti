@@ -214,6 +214,9 @@ export default function SchedulePage() {
             <span className="mr-4">患者名：{user ? `${user.baby_family_name ?? ''} ${user.baby_first_name ?? ''}`.trim() || '-' : '-'}</span>
             <span>診察番号：{user?.consultation_id ?? '-'}</span>
           </div>
+          <div className="pt-4 text-[12px] text-red-300">
+            ※注意  利用時間記録は、週をまたいで更新できません。
+          </div>
         </div>
 
         {/* コントロール群 */}
