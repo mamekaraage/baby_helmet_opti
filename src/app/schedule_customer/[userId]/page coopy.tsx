@@ -66,19 +66,6 @@ export default function SchedulePage() {
   // ユーザー基本情報（ヘッダ表示用）
   const [user, setUser] = useState<UserDoc | null>(null)
 
-  // 日毎の装着時間を計算する関数
-  const calculateDailyHours = useCallback((date: Date): number => {
-    let count = 0
-    for (let i = 0; i < SLOTS_PER_DAY; i++) {
-      const key = slotKey(date, i)
-      const state = slotState(key)
-      if (state === 2) { // 青500（保存済み）の場合
-        count++
-      }
-    }
-    return count * 0.5 // 30分単位なので0.5時間をかける
-  }, [persistedMap, pendingMap])
-
   // 週が変わったら Firestore から状態を取得
   const loadWeek = useCallback(async () => {
     // 週の 7 日 * 48 スロットぶんのキーを生成
@@ -219,6 +206,7 @@ export default function SchedulePage() {
           >
             ← 戻る
           </button>
+          {/* <h1 className="text-xl md:text-2xl font-semibold">カレンダー（ヘルメット利用時間記録）</h1> */}
           <h1 className="text-[14px] sm:text-[20px] md:text-[26px] md:text-xl lg:text-2xl font-semibold leading-tight break-words">
                 カレンダー（ヘルメット利用時間記録）
               </h1>          
@@ -247,38 +235,30 @@ export default function SchedulePage() {
 
       {/* カレンダー本体 */}
       <div className="mt-4 rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
-        {/* 週ヘッダ（日付 + 曜日 + 装着時間） */}
-        <div className="grid grid-cols-[45px_repeat(7,1fr)] sm:grid-cols-[60px_repeat(7,1fr)] md:grid-cols-[75px_repeat(7,1fr)] lg:grid-cols-[90px_repeat(7,1fr)]">
-        {/* <div className="grid" style={{ gridTemplateColumns: '45px repeat(7, 1fr)' }}> */}
+        {/* 週ヘッダ（日付 + 曜日） */}
+        <div className="grid" style={{ gridTemplateColumns: '64px repeat(7, 1fr)' }}>
           {/* 空のセル*/}
           <div className="bg-gray-50 py-3 px-2 text-xs text-gray-500"></div>
-          {days.map((d, idx) => {
-            const dailyHours = calculateDailyHours(d)
-            return (
-              <div key={idx} className="bg-gray-50 py-1 px-1 text-center">
-                <div className="text-[7px] sm:text-[10px] md:text-[16px] text-gray-500">{weekdayJa(d)}</div>
-                <div className={`text-[7px] sm:text-[10px] md:text-[16px] font-medium ${isToday(d) ? 'text-blue-700' : ''}`}>
-                  {/* 当日は数字を強調 */}
-                  <span className={`${isToday(d) ? 'px-2 py-0.5 rounded-full bg-blue-100' : ''}`}>{formatLabel(d)}</span>
-                </div>
-                {/* 装着時間表示 */}
-                <div className="text-[7px] sm:text-[12px] md:text-[14px] text-blue-600 font-medium mt-1">
-                    {dailyHours.toFixed(1)}h
-                </div>
+          {days.map((d, idx) => (
+            <div key={idx} className="bg-gray-50 py-1 px-1 text-center">
+              <div className="text-[7px] sm:text-[10px] md:text-[16px] text-gray-500">{weekdayJa(d)}</div>
+              <div className={`text-[7px] sm:text-[10px] md:text-[16px] font-medium ${isToday(d) ? 'text-blue-700' : ''}`}>
+                {/* 当日は数字を強調 */}
+                <span className={`${isToday(d) ? 'px-2 py-0.5 rounded-full bg-blue-100' : ''}`}>{formatLabel(d)}</span>
               </div>
-            )
-          })}
+            </div>
+          ))}
         </div>
 
         {/* スクロール領域 */}
         <div className="max-h-[70vh] overflow-y-auto">
           {/* 30分ごとの行を生成 */}
           {Array.from({ length: SLOTS_PER_DAY }).map((_, rowIdx) => (
-            <div key={rowIdx} className="grid grid-cols-[45px_repeat(7,1fr)] sm:grid-cols-[60px_repeat(7,1fr)] md:grid-cols-[75px_repeat(7,1fr)] lg:grid-cols-[90px_repeat(7,1fr)]">
-            {/* <div key={rowIdx} className="grid" style={{ gridTemplateColumns: '45px repeat(7, 1fr)' }}> */}
-            {/* 左の時間ラベル */}
-              <div className="border-t px-2 py-2 text-center text-[9px] md:text-sm text-gray-600 select-none">
+            <div key={rowIdx} className="grid" style={{ gridTemplateColumns: '64px repeat(7, 1fr)' }}>
+              {/* 左の時間ラベル */}
+              <div className="border-t px-2 py-2 text-right text-[9px] md:text-sm text-gray-600 select-none">
                 {`${String(Math.floor(rowIdx / 2)).padStart(2, '0')}:${rowIdx % 2 === 0 ? '00' : '30'}`}
+                {/* {rowIdx % 2 === 1 && <span className="text-[10px] md:text-xs text-gray-400 ml-1">（30）</span>} */}
               </div>
 
               {/* 7日 * セル */}
@@ -303,6 +283,7 @@ export default function SchedulePage() {
 
       {/* 凡例 */}
       <div className="flex items-center gap-4 text-xs text-gray-600 mt-3">
+        {/* <div className="flex items-center gap-2"><span className="w-4 h-4 inline-block bg-white border"/>未選択（0）</div> */}
         <div className="flex items-center gap-2"><span className="w-4 h-4 inline-block bg-blue-300 border"/>未保存の選択</div>
         <div className="flex items-center gap-2"><span className="w-4 h-4 inline-block bg-blue-500 border"/>保存済</div>
       </div>
