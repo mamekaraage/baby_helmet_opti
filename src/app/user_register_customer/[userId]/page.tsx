@@ -82,8 +82,12 @@ export default function UserUpdatePage() {
         if (userDoc.exists()) {
           const userData = userDoc.data() as User;
           setUser(userData);
-          setFormData(userData);
-          setConfirmPassword(userData.password);
+          // パスワードフィールドは空欄で初期化
+          setFormData({
+            ...userData,
+            password: ''  // パスワードフィールドは空欄にする
+          });
+          setConfirmPassword('');  // 確認用パスワードは空欄にする
           setMemoCount(userData.user_memo?.length || 0);
         } else {
           setError('ユーザーが見つかりません');
@@ -131,38 +135,28 @@ export default function UserUpdatePage() {
       errors.push('メールアドレスは128文字以内で入力してください');
     }
 
-  // パスワードが入力されている場合のみバリデーション
-  if (formData.password || confirmPassword) {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{10,32}$/;
-    if (!passwordRegex.test(formData.password)) {
-      errors.push(
-        'パスワードは10文字以上-32文字以内で、大文字・小文字・数字・記号をすべて含む必要があります'
-      );
+    // パスワードバリデーション（修正版）
+    // パスワードが入力されている場合のみチェック
+    if (formData.password.trim() !== '') {
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{10,32}$/;
+      if (!passwordRegex.test(formData.password)) {
+        errors.push(
+          'パスワードは10文字以上-32文字以内で、大文字・小文字・数字・記号をすべて含む必要があります'
+        );
+      }
     }
 
-    if (formData.password !== confirmPassword) {
-      errors.push('パスワードと確認用パスワードが一致しません');
+    // パスワード確認チェック（どちらかが入力されている場合のみ）
+    if (formData.password.trim() !== '' || confirmPassword.trim() !== '') {
+      if (formData.password !== confirmPassword) {
+        errors.push('パスワードと確認用パスワードが一致しません');
+      }
     }
-  }
-    // パスワードバリデーション
-    // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{10,32}$/;
-    // if (!passwordRegex.test(formData.password)) {
-    //   errors.push('パスワードは10文字以上-32文字以内で、大文字・小文字・数字・記号をすべて含む必要があります');
-    // }
-
-    // // パスワード確認
-    // if (formData.password !== confirmPassword) {
-    //   errors.push('パスワードと確認用パスワードが一致しません');
-    // }
-
-    // alert(formData.user_memo.length)
 
     // メモバリデーション
     if ((formData.user_memo ?? '').length > 700) {
-    // if (formData.user_memo.length > 700) {
-        // if (!(formData.user_memo.length >= 0 && formData.user_memo.length <= 700)) {
-        errors.push('メモは700文字以内で入力してください');
+      errors.push('メモは700文字以内で入力してください');
     }
 
     return errors;
@@ -186,14 +180,14 @@ export default function UserUpdatePage() {
     const { password: formPass, ...restForm } = formData;
     const { password: userPass, ...restUser } = user || {};
 
-    // // 未使用変数エラーを回避するためコメントで使用を示す
+    // 未使用変数エラーを回避するためコメントで使用を示す
     void formPass; // パスワードは比較対象外
     void userPass; // パスワードは比較対象外
 
     if (
       user &&
       JSON.stringify(restForm) === JSON.stringify(restUser) &&
-      (!formData.password || confirmPassword === user.password)
+      formData.password.trim() === ''
     ) {
       setError('更新する項目がありません');
       return;
@@ -210,7 +204,7 @@ export default function UserUpdatePage() {
       const updateData: Partial<User> = { ...formData };
 
       // パスワードが入力されている場合のみハッシュ化して更新
-      if (formData.password) {
+      if (formData.password.trim() !== '') {
         const hashedPassword = await hashPassword(formData.password);
         updateData.password = hashedPassword;
       } else {
@@ -234,12 +228,6 @@ export default function UserUpdatePage() {
       </div>
     );
   }
-
-  // if (!window.confirm(
-  //   userId
-  // )) {
-  //   return;
-  // }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-100">
@@ -327,11 +315,9 @@ export default function UserUpdatePage() {
               <input
                 type="text"
                 value={formData.baby_first_name}
-                // disabled
                 onChange={(e) => handleInputChange('baby_first_name', e.target.value)}
                 maxLength={32}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
-                //className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-500"
               />
             </div>
 
@@ -391,17 +377,17 @@ export default function UserUpdatePage() {
             {/* パスワード */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                パスワード
+                パスワード（変更する場合のみ入力）
               </label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
-                //   value={formData.password}
+                  placeholder="パスワードを変更する場合は入力してください"
                   onChange={(e) => handleInputChange('password', e.target.value)}
                   maxLength={32}
                   className="w-full p-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
                 />
-                <button
+                {/* <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
@@ -416,7 +402,7 @@ export default function UserUpdatePage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
                   )}
-                </button>
+                </button> */}
               </div>
             </div>
 
@@ -428,12 +414,12 @@ export default function UserUpdatePage() {
               <div className="relative">
                 <input
                   type={showConfirmPassword ? "text" : "password"}
-                //   value={confirmPassword}
+                  placeholder="上記と同じパスワードを入力してください"
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   maxLength={32}
                   className="w-full p-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
                 />
-                <button
+                {/* <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
@@ -448,7 +434,7 @@ export default function UserUpdatePage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
                   )}
-                </button>
+                </button> */}
               </div>
             </div>
 

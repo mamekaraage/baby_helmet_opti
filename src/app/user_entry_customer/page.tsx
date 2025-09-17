@@ -348,13 +348,13 @@ export default function UserEntryCustomerPage() {
                 maxLength={32}
                 className="w-full p-3 pr-12 border rounded-lg"
               />
-              <button
+              {/* <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-3 text-gray-500"
               >
                 👁
-              </button>
+              </button> */}
             </div>
           </div>
 
@@ -371,13 +371,13 @@ export default function UserEntryCustomerPage() {
                 maxLength={32}
                 className="w-full p-3 pr-12 border rounded-lg"
               />
-              <button
+              {/* <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 className="absolute right-3 top-3 text-gray-500"
               >
                 👁
-              </button>
+              </button> */}
             </div>
           </div>
 

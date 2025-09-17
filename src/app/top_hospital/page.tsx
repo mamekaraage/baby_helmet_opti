@@ -207,30 +207,30 @@ export default function HospitalTopPage() {
 
         {/* テーブル */}
         <div className="bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
-          <div className="overflow-x-auto">
-            {isLoading ? (
-              <div className="flex items-center justify-center h-64">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-                <span className="ml-3 text-gray-600">読み込み中...</span>
-              </div>
-            ) : (
+          {isLoading ? (
+            <div className="flex items-center justify-center h-64">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+              <span className="ml-3 text-gray-600">読み込み中...</span>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
               <div className="max-h-96 overflow-y-auto">
                 <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50 sticky top-0">
+                  <thead className="bg-gray-50 sticky top-0 z-10">
                     <tr>
-                      <th className="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider sticky top-0 bg-gray-50">
                         苗字
                       </th>
-                      <th className="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider sticky top-0 bg-gray-50">
                         名前
                       </th>
-                      <th className="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider sticky top-0 bg-gray-50">
                         診察番号
                       </th>
-                      <th className="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider sticky top-0 bg-gray-50">
                         生年月日
                       </th>
-                      <th className="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider sticky top-0 bg-gray-50 z-20">
                         操作
                       </th>
                     </tr>
@@ -311,8 +311,8 @@ export default function HospitalTopPage() {
                   </tbody>
                 </table>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* 統計情報 */}
@@ -382,7 +382,7 @@ export default function HospitalTopPage() {
                   </svg>
                 </div>
                 <h2 className="ml-3 text-gray-800 text-lg font-medium">
-                  ユーザー登録
+                  ユーザー登録（患者様）
                 </h2>
               </div>
             </button>
