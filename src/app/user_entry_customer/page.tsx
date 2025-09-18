@@ -50,8 +50,6 @@ export default function UserEntryCustomerPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [memoCount, setMemoCount] = useState(0);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // 年選択肢
   const generateYearOptions = () => {
@@ -78,21 +76,6 @@ export default function UserEntryCustomerPage() {
       .map(b => b.toString(16).padStart(2, '0'))
       .join('');
   }
-
-  // ユーザーID自動採番
-  
-    // const generateUserId = async (): Promise<string> => {
-    //     const snapshot = await getDocs(collection(db, 'users'));
-    //     const ids = snapshot.docs
-    //     .map(d => d.data().userId as string)
-    //     .filter(id => id?.startsWith('customer_user_'));
-    //     const numbers = ids.map(id => parseInt(id.split('_').pop() || '0', 10));
-    //     let next = 1;
-    //     while (numbers.includes(next)) {
-    //     next++;
-    //     }
-    //     return `customer_user_${String(next).padStart(4, '0')}`;
-    // };
 
   // バリデーション
   const validateForm = async (): Promise<string[]> => {
@@ -151,7 +134,6 @@ export default function UserEntryCustomerPage() {
       }
 
       const userId = await getNewUserId("customer_user");
-    //   const userId = await generateUserId();
       const hashedPassword = await hashPassword(formData.password);
 
       const newUser: User = {
@@ -340,22 +322,13 @@ export default function UserEntryCustomerPage() {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               パスワード
             </label>
-            <div className="relative">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                value={formData.password}
-                onChange={e => handleInputChange('password', e.target.value)}
-                maxLength={32}
-                className="w-full p-3 pr-12 border rounded-lg"
-              />
-              {/* <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-3 text-gray-500"
-              >
-                👁
-              </button> */}
-            </div>
+            <input
+              type="password"
+              value={formData.password}
+              onChange={e => handleInputChange('password', e.target.value)}
+              maxLength={32}
+              className="w-full p-3 border rounded-lg"
+            />
           </div>
 
           {/* パスワード確認 */}
@@ -363,22 +336,13 @@ export default function UserEntryCustomerPage() {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               パスワード（確認用）
             </label>
-            <div className="relative">
-              <input
-                type={showConfirmPassword ? 'text' : 'password'}
-                value={confirmPassword}
-                onChange={e => setConfirmPassword(e.target.value)}
-                maxLength={32}
-                className="w-full p-3 pr-12 border rounded-lg"
-              />
-              {/* <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-3 text-gray-500"
-              >
-                👁
-              </button> */}
-            </div>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={e => setConfirmPassword(e.target.value)}
+              maxLength={32}
+              className="w-full p-3 border rounded-lg"
+            />
           </div>
 
           {/* メモ */}

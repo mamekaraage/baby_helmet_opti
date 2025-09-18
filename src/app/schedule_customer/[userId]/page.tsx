@@ -66,6 +66,22 @@ export default function SchedulePage() {
   // ユーザー基本情報（ヘッダ表示用）
   const [user, setUser] = useState<UserDoc | null>(null)
 
+  const slotKey = useCallback((date: Date, idx: number) => {
+    const hh = Math.floor(idx / 2)
+    const mm = idx % 2 === 0 ? 0 : 30
+    const dt = new Date(date)
+    dt.setHours(hh, mm, 0, 0)
+    return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}T${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`
+  }, [])
+
+  const slotState = useCallback((key: string): 0 | 1 | 2 => {
+    // 0=白、1=未保存選択(青300)、2=保存済み(青500)
+    if (key in pendingMap) {
+      return pendingMap[key] === 1 ? 1 : 0
+    }
+    return (persistedMap[key] ?? 0) === 1 ? 2 : 0
+  }, [pendingMap, persistedMap])
+
   // 日毎の装着時間を計算する関数
   const calculateDailyHours = useCallback((date: Date): number => {
     let count = 0
@@ -77,7 +93,7 @@ export default function SchedulePage() {
       }
     }
     return count * 0.5 // 30分単位なので0.5時間をかける
-  }, [persistedMap, pendingMap])
+  }, [slotKey, slotState])
 
   // 週が変わったら Firestore から状態を取得
   const loadWeek = useCallback(async () => {
@@ -128,22 +144,6 @@ export default function SchedulePage() {
   useEffect(() => {
     loadUser()
   }, [loadUser])
-
-  const slotKey = (date: Date, idx: number) => {
-    const hh = Math.floor(idx / 2)
-    const mm = idx % 2 === 0 ? 0 : 30
-    const dt = new Date(date)
-    dt.setHours(hh, mm, 0, 0)
-    return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}T${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`
-  }
-
-  const slotState = (key: string): 0 | 1 | 2 => {
-    // 0=白、1=未保存選択(青300)、2=保存済み(青500)
-    if (key in pendingMap) {
-      return pendingMap[key] === 1 ? 1 : 0
-    }
-    return (persistedMap[key] ?? 0) === 1 ? 2 : 0
-  }
 
   const handleCellClick = (key: string) => {
     const current = slotState(key)
@@ -249,7 +249,6 @@ export default function SchedulePage() {
       <div className="mt-4 rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
         {/* 週ヘッダ（日付 + 曜日 + 装着時間） */}
         <div className="grid grid-cols-[45px_repeat(7,1fr)] sm:grid-cols-[60px_repeat(7,1fr)] md:grid-cols-[75px_repeat(7,1fr)] lg:grid-cols-[90px_repeat(7,1fr)]">
-        {/* <div className="grid" style={{ gridTemplateColumns: '45px repeat(7, 1fr)' }}> */}
           {/* 空のセル*/}
           <div className="bg-gray-50 py-3 px-2 text-xs text-gray-500"></div>
           {days.map((d, idx) => {
@@ -275,7 +274,6 @@ export default function SchedulePage() {
           {/* 30分ごとの行を生成 */}
           {Array.from({ length: SLOTS_PER_DAY }).map((_, rowIdx) => (
             <div key={rowIdx} className="grid grid-cols-[45px_repeat(7,1fr)] sm:grid-cols-[60px_repeat(7,1fr)] md:grid-cols-[75px_repeat(7,1fr)] lg:grid-cols-[90px_repeat(7,1fr)]">
-            {/* <div key={rowIdx} className="grid" style={{ gridTemplateColumns: '45px repeat(7, 1fr)' }}> */}
             {/* 左の時間ラベル */}
               <div className="border-t px-2 py-2 text-center text-[9px] md:text-sm text-gray-600 select-none">
                 {`${String(Math.floor(rowIdx / 2)).padStart(2, '0')}:${rowIdx % 2 === 0 ? '00' : '30'}`}
